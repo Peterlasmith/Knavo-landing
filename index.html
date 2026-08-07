@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knavo — Cancel the status meeting</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#EAF8FF;
+    --ink-800:#D7EFFF;
+    --ink-700:#ACD9F7;
+    --ink-600:#7BBCE7;
+    --line:rgba(16,42,67,0.12);
+    --paper:#102A43;
+    --paper-dim:#315F7D;
+    --paper-dimmer:#5C8BAA;
+    --signal:#2F9FE4;
+    --signal-dim:rgba(47,159,228,0.22);
+    --signal-ink:#F7FCFF;
+    --error:#B04A6B;
+    --max:1120px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink-900);
+    color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .bp-grid{
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:40px 40px;
+    pointer-events:none;
+  }
+
+  h1,h2,h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 32px;
+    position:relative;
+  }
+
+  /* NAV */
+  nav{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(234,248,255,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-top:20px;
+    padding-bottom:20px;
+  }
+  .logo{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:15px;
+    letter-spacing:0.18em;
+    color:var(--paper);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo-mark{
+    width:18px;height:18px;
+    border:1.5px solid var(--signal);
+    border-radius:3px;
+    position:relative;
+  }
+  .logo-mark::after{
+    content:"";
+    position:absolute;
+    inset:4px;
+    background:var(--signal);
+    border-radius:1px;
+  }
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:32px;
+  }
+  .nav-links a{
+    color:var(--paper-dim);
+    text-decoration:none;
+    font-size:14px;
+    transition:color 0.2s;
+  }
+  .nav-links a:hover{color:var(--paper);}
+  .nav-links a.btn, .nav-links a.btn:hover{ color:var(--signal-ink); }
+  .btn{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:500;
+    font-size:14px;
+    padding:11px 22px;
+    border-radius:999px;
+    background:var(--signal);
+    color:var(--signal-ink);
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{
+    transform:translateY(-1px);
+    box-shadow:0 6px 20px var(--signal-dim);
+  }
+  .btn:focus-visible, a:focus-visible, button:focus-visible{
+    outline:2px solid var(--signal);
+    outline-offset:3px;
+  }
+
+  /* HERO */
+  .hero{
+    position:relative;
+    padding:96px 0 64px;
+    overflow:hidden;
+  }
+  .eyebrow{
+    color:var(--signal);
+    font-size:12px;
+    margin-bottom:20px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:24px;height:1px;
+    background:var(--signal);
+    display:inline-block;
+  }
+  .hero h1{
+    font-size:clamp(32px, 5vw, 54px);
+    line-height:1.12;
+    max-width:920px;
+    color:var(--paper);
+  }
+  .hero .sub{
+    margin-top:28px;
+    max-width:620px;
+    font-size:18px;
+    color:var(--paper-dim);
+  }
+  .hero-cta{
+    margin-top:36px;
+    display:flex;
+    gap:16px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .hero-cta .link{
+    color:var(--paper-dim);
+    font-size:14px;
+    text-decoration:none;
+    border-bottom:1px solid var(--line);
+    padding-bottom:2px;
+    transition:color 0.2s, border-color 0.2s;
+  }
+  .hero-cta .link:hover{color:var(--paper); border-color:var(--paper-dim);}
+
+  section{ position:relative; }
+
+  /* SECTION GENERIC */
+  .section{
+    padding:88px 0;
+    border-top:1px solid var(--line);
+  }
+  .section-head{
+    max-width:680px;
+    margin-bottom:40px;
+  }
+  .section-head .eyebrow{ margin-bottom:16px; }
+  .section-head h2{
+    font-size:clamp(26px, 3.4vw, 36px);
+    line-height:1.2;
+  }
+
+  .prose{
+    max-width:680px;
+    font-size:17px;
+    color:var(--paper-dim);
+  }
+  .prose p{ margin:0 0 18px; }
+  .prose strong{ color:var(--paper); font-weight:500; }
+
+  /* CALLOUT (competitor) */
+  .callout{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:28px;
+    align-items:start;
+    max-width:760px;
+    padding:28px;
+    border:1px dashed var(--ink-600);
+    border-radius:10px;
+    background:var(--ink-800);
+  }
+  .callout-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .callout-icon svg{ width:56px; height:56px; color:var(--paper-dimmer); }
+  .callout p{
+    margin:0;
+    color:var(--paper-dim);
+    font-size:16px;
+  }
+  .callout p + p{ margin-top:14px; }
+
+  /* TURN STATEMENT */
+  .turn{
+    background:var(--ink-800);
+    padding:110px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .turn .wrap{ max-width:880px; }
+  .turn p{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:clamp(24px, 3.6vw, 38px);
+    line-height:1.3;
+    font-weight:500;
+    color:var(--paper);
+    margin:0;
+  }
+  .turn .accent{ color:var(--signal); }
+
+  /* STEPS */
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:32px;
+    margin-top:8px;
+  }
+  .step{
+    padding:28px 0 0;
+    border-top:1px solid var(--line);
+  }
+  .step-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--signal);
+    margin-bottom:16px;
+    display:block;
+  }
+  .step h3{
+    font-size:19px;
+    margin-bottom:10px;
+    color:var(--paper);
+  }
+  .step p{
+    color:var(--paper-dim);
+    font-size:15px;
+    margin:0;
+  }
+
+  .extra{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:48px;
+    margin-top:56px;
+    padding-top:40px;
+    border-top:1px solid var(--line);
+  }
+  .extra .label{
+    color:var(--paper-dimmer);
+    font-size:12px;
+    margin-bottom:16px;
+    display:block;
+  }
+  .extra h3{
+    font-size:19px;
+    margin-bottom:10px;
+    color:var(--paper);
+  }
+  .extra p{
+    color:var(--paper-dim);
+    font-size:15px;
+    margin:0;
+  }
+
+  /* CTA / FOOTER */
+  .cta-section{
+    padding:100px 0 60px;
+    text-align:center;
+  }
+  .cta-section h2{
+    font-size:clamp(28px, 4vw, 42px);
+    max-width:640px;
+    margin:0 auto 20px;
+  }
+  .cta-section .sub{
+    color:var(--paper-dim);
+    max-width:520px;
+    margin:0 auto 36px;
+    font-size:16px;
+  }
+  .cta-form{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:center;
+    max-width:420px;
+    margin:0 auto;
+  }
+  .cta-form input[type="email"],
+  .cta-form textarea{
+    width:100%;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:14px;
+    border:1px solid var(--ink-700);
+    background:var(--ink-800);
+    color:var(--paper);
+    outline:none;
+  }
+  .cta-form input[type="email"]{
+    padding:11px 16px;
+    border-radius:999px;
+  }
+  .cta-form textarea{
+    padding:12px 16px;
+    border-radius:16px;
+    resize:none;
+    line-height:1.5;
+    font-family:inherit;
+  }
+  .cta-form input::placeholder, .cta-form textarea::placeholder{ color:var(--paper-dimmer); }
+  .cta-form input:focus-visible, .cta-form textarea:focus-visible{ border-color:var(--signal); outline:2px solid var(--signal); outline-offset:2px; }
+  .cta-form .hidden-field{ position:absolute; left:-9999px; }
+  .cta-form .field-wrap{ width:100%; }
+  .cta-char-count{
+    display:block;
+    text-align:right;
+    font-size:12px;
+    color:var(--paper-dimmer);
+    margin-top:4px;
+  }
+  .cta-email-error{
+    display:none;
+    text-align:left;
+    font-size:13px;
+    color:var(--error);
+    margin-top:6px;
+  }
+  .cta-email-error.show{ display:block; }
+  .cta-note{
+    margin-top:20px;
+    font-size:15px;
+    color:var(--paper-dim);
+  }
+  footer{
+    border-top:1px solid var(--line);
+    padding:32px 0 40px;
+  }
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  footer .fine{
+    color:var(--paper-dimmer);
+    font-size:13px;
+  }
+  footer .foot-links{
+    display:flex;
+    gap:24px;
+  }
+  footer .foot-links a{
+    color:var(--paper-dimmer);
+    font-size:13px;
+    text-decoration:none;
+  }
+  footer .foot-links a:hover{ color:var(--paper-dim); }
+
+  /* REVEAL */
+  .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  @media (max-width: 860px){
+    .steps{ grid-template-columns:1fr; }
+    .extra{ grid-template-columns:1fr; gap:32px; }
+    .callout{ grid-template-columns:1fr; }
+    .callout-icon{ justify-content:flex-start; }
+    nav .nav-links{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .btn:hover{ transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="logo-mark"></span>KNAVO</div>
+    <div class="nav-links">
+      <a href="#problem">The problem</a>
+      <a href="#how">How it works</a>
+      <a href="https://app.knavo.io" class="btn">Log in</a>
+      <a href="#cta" class="btn">Talk to us</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="bp-grid"></div>
+  <div class="wrap">
+    <div class="eyebrow mono">For small teams, not enterprises</div>
+    <h1>The standup. The sprint review. The weekly report. The status meeting about the status doc. Your team of five spends a day a week telling each other what already happened.</h1>
+    <p class="sub">Small teams don't have a chief of staff, so coordination falls on everyone. The director chases updates, the team writes them, the task board goes stale the moment nobody's looking — and the meetings multiply to cover the gap. Knavo replaces the ritual with a five-minute conversation.</p>
+    <div class="hero-cta">
+      <a href="#cta" class="btn">Talk to us</a>
+      <a href="#problem" class="link">See the problem &darr;</a>
+    </div>
+
+  </div>
+</header>
+
+<section class="section reveal" id="problem">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow mono">The coordination tax</div>
+      <h2>Keeping each other posted is a part-time job nobody was hired to do</h2>
+    </div>
+    <div class="prose">
+      <p>Picture five product managers and the director they report to. Nobody's slacking — that's the problem. Everyone's running their own lane, so the only way to stay aligned is to keep asking: <strong>the standup to hear what changed, the sprint review to show it, the weekly report to write it down for whoever missed both.</strong> Each one exists because the last one wasn't enough.</p>
+      <p>And every update gets produced more than once. You tell the standup, then you type it into the tracker, then you summarize it for the director's rollup. Three renditions of the same fact — and the person who needed it still pings you, because it wasn't in the shape they needed.</p>
+    </div>
+
+    <div class="callout" style="margin-top:48px;">
+      <div class="callout-icon">
+        <svg viewBox="0 0 48 48" fill="none"><rect x="4" y="12" width="40" height="28" rx="4" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="26" r="8" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="26" r="2.5" fill="currentColor"/><circle cx="36" cy="16" r="2" fill="currentColor"/></svg>
+      </div>
+      <div>
+        <p class="mono" style="font-size:12px; color:#5C8BAA; margin-bottom:12px;">Not the fix</p>
+        <p>The usual answer is a better task board. Fine. But a board only knows what people type into it, and keeping it current is one more standing chore — for a team of five, the setup and grooming costs about as much as the meetings it was supposed to replace.</p>
+        <p>So the board drifts, and when nobody trusts it anymore, someone calls a meeting to find out what's actually true. Now you're maintaining the tool <em>and</em> having the meeting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="turn reveal">
+  <div class="wrap">
+    <p>Stay aligned, or stay heads-down. Small teams have always had to pick one — <span class="accent">until keeping each other posted takes five conversational minutes, and everyone gets exactly the view they asked for.</span></p>
+  </div>
+</section>
+
+<section class="section reveal" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow mono">How Knavo works</div>
+      <h2>Anyone on the team asks. Everyone answers in minutes. Nobody books a meeting.</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-num mono">01</span>
+        <h3>Anyone sets up a check-in</h3>
+        <p>Not just the boss. A PM prepping a sprint review, a director who wants a Friday rollup — write what you need to know, pick your people, set the cadence.</p>
+      </div>
+      <div class="step">
+        <span class="step-num mono">02</span>
+        <h3>Knavo interviews your team</h3>
+        <p>A five-minute conversation with an agent, on each person's own schedule. It follows up the way a good chief of staff would — progress, blockers, who needs what from whom.</p>
+      </div>
+      <div class="step">
+        <span class="step-num mono">03</span>
+        <h3>Your dashboard does the reporting</h3>
+        <p>Answers land on the dashboard of whoever asked, organized around their questions. The sprint review gets read, not held. The weekly report gets assembled, not written.</p>
+      </div>
+    </div>
+
+    <div class="extra">
+      <div class="extra-item">
+        <span class="label mono">Every direction, not just top-down</span>
+        <h3>Everyone gets their own view</h3>
+        <p>The director sees the rollup across the whole team. Each PM sees answers to what they asked. Same conversations, different lenses — nobody has to chase anybody.</p>
+      </div>
+      <div class="extra-item">
+        <span class="label mono">No tool to babysit</span>
+        <h3>Nothing to groom, nothing to go stale</h3>
+        <p>There's no board to keep current and no workflow to configure. When the answers get old, Knavo simply asks again — on the schedule you set once.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta-section reveal" id="cta">
+  <div class="wrap">
+    <h2>Cancel the standing meeting.</h2>
+    <p class="sub">See what your team's week looks like when the updates write themselves.</p>
+
+    <form class='cta-form' id='cta-form' method='POST' name='talk-to-us'>
+      <input type="hidden" name="form-name" value="talk-to-us">
+      <p class="hidden-field"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
+      <div class="field-wrap">
+        <input type="email" name="email" id="cta-email" placeholder="you@company.com" required aria-label="Your work email">
+        <span class="cta-email-error" id="cta-email-error">Please use your work email, not a personal address.</span>
+      </div>
+      <div class="field-wrap">
+        <textarea name="note" id="cta-note-field" rows="2" maxlength="200" placeholder="Anything specific you want us to know? (optional)" aria-label="Note"></textarea>
+        <span class="cta-char-count" id="cta-char-count">200 characters left</span>
+      </div>
+      <button type="submit" class="btn">Talk to us</button>
+    </form>
+    <p class="cta-note" id="cta-success" hidden>Thanks — we'll be in touch soon.</p>
+    <p class="cta-note" id="cta-error" hidden>Something went wrong. Email us directly at <a href="mailto:support@knavo.io">support@knavo.io</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="fine">&copy; Knavo. All rights reserved.</span>
+    <div class="foot-links">
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el=>io.observe(el));
+  } else {
+    revealEls.forEach(el=>el.classList.add('in'));
+  }
+
+  const ctaForm = document.getElementById('cta-form');
+  const ctaSuccess = document.getElementById('cta-success');
+  const ctaError = document.getElementById('cta-error');
+  const ctaEmail = document.getElementById('cta-email');
+  const ctaEmailError = document.getElementById('cta-email-error');
+  const ctaNoteField = document.getElementById('cta-note-field');
+  const ctaCharCount = document.getElementById('cta-char-count');
+  const PERSONAL_EMAIL_DOMAINS = [
+    'gmail.com','googlemail.com','yahoo.com','ymail.com','hotmail.com','outlook.com',
+    'live.com','msn.com','icloud.com','me.com','mac.com','aol.com','protonmail.com',
+    'proton.me','gmx.com','gmx.net','mail.com','yandex.com','yandex.ru','zoho.com',
+    'qq.com','163.com','126.com','naver.com','hey.com','fastmail.com','tutanota.com'
+  ];
+  function isWorkEmail(email){
+    const domain = email.split('@')[1]?.toLowerCase().trim();
+    return !!domain && !PERSONAL_EMAIL_DOMAINS.includes(domain);
+  }
+  if (ctaNoteField && ctaCharCount){
+    ctaNoteField.addEventListener('input', ()=>{
+      const left = 200 - ctaNoteField.value.length;
+      ctaCharCount.textContent = left + ' characters left';
+    });
+  }
+  if (ctaForm){
+    ctaForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      ctaError.hidden = true;
+      ctaEmailError.classList.remove('show');
+      if (!isWorkEmail(ctaEmail.value)){
+        ctaEmailError.classList.add('show');
+        ctaEmail.focus();
+        return;
+      }
+      const body = new URLSearchParams(new FormData(ctaForm)).toString();
+      fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body })
+        .then((res)=>{
+          if (!res.ok) throw new Error('Form submission failed');
+          ctaForm.hidden = true;
+          ctaSuccess.hidden = false;
+        })
+        .catch(()=>{ ctaError.hidden = false; });
+    });
+  }
+</script>
+
+</body>
+</html>
