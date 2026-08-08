@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Knavo — Cancel the status meeting</title>
+<title>Knavo — Project clarity for your team</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -313,6 +313,81 @@
     margin:0;
   }
 
+  /* PRICING */
+  .pricing-section{
+    background:var(--ink-800);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .pricing-grid{
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) minmax(320px, 440px);
+    gap:64px;
+    align-items:center;
+  }
+  .pricing-copy h2{ max-width:520px; }
+  .pricing-copy p{
+    max-width:560px;
+    margin:20px 0 0;
+    color:var(--paper-dim);
+    font-size:17px;
+  }
+  .pricing-card{
+    padding:32px;
+    border:1px solid var(--ink-700);
+    border-radius:12px;
+    background:var(--ink-900);
+    box-shadow:0 18px 40px rgba(16,42,67,0.08);
+  }
+  .pricing-card .label{
+    color:var(--signal);
+    font-size:12px;
+  }
+  .price{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    margin-top:14px;
+    color:var(--paper);
+  }
+  .price strong{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:clamp(46px, 6vw, 64px);
+    font-weight:600;
+    letter-spacing:-0.05em;
+    line-height:1;
+  }
+  .price span{
+    color:var(--paper-dim);
+    font-size:15px;
+  }
+  .pricing-card .usage-note{
+    margin:18px 0 24px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    color:var(--paper-dim);
+    font-size:14px;
+    line-height:1.5;
+  }
+  .pricing-card .usage-note strong{ color:var(--paper); font-weight:500; }
+  .pricing-list{
+    display:grid;
+    gap:10px;
+    margin:0 0 26px;
+    padding:0;
+    list-style:none;
+    color:var(--paper-dim);
+    font-size:14px;
+  }
+  .pricing-list li::before{
+    content:'✓';
+    display:inline-block;
+    width:24px;
+    color:var(--signal);
+    font-weight:600;
+  }
+  .pricing-card .btn{ width:100%; text-align:center; }
+
   /* CTA / FOOTER */
   .cta-section{
     padding:100px 0 60px;
@@ -425,6 +500,13 @@
     .callout{ grid-template-columns:1fr; }
     .callout-icon{ justify-content:flex-start; }
     nav .nav-links{ display:none; }
+    .pricing-grid{ grid-template-columns:1fr; gap:40px; }
+  }
+
+  @media (max-width: 520px){
+    .wrap{ padding:0 20px; }
+    .hero{ padding-top:72px; }
+    .pricing-card{ padding:24px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -442,8 +524,9 @@
     <div class="nav-links">
       <a href="#problem">The problem</a>
       <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
       <a href="https://app.knavo.io" class="btn">Log in</a>
-      <a href="#cta" class="btn">Talk to us</a>
+      <a href="#pricing" class="btn">Subscribe now</a>
     </div>
   </div>
 </nav>
@@ -455,7 +538,7 @@
     <h1>The standup. The sprint review. The weekly report. The status meeting about the status doc. Your team of five spends a day a week telling each other what already happened.</h1>
     <p class="sub">Small teams don't have a chief of staff, so coordination falls on everyone. The director chases updates, the team writes them, the task board goes stale the moment nobody's looking — and the meetings multiply to cover the gap. Knavo replaces the ritual with a five-minute conversation.</p>
     <div class="hero-cta">
-      <a href="#cta" class="btn">Talk to us</a>
+      <a href="#pricing" class="btn">Subscribe now</a>
       <a href="#problem" class="link">See the problem &darr;</a>
     </div>
 
@@ -533,10 +616,33 @@
   </div>
 </section>
 
+<section class="section pricing-section reveal" id="pricing">
+  <div class="wrap pricing-grid">
+    <div class="pricing-copy">
+      <div class="section-head">
+        <div class="eyebrow mono">Simple team pricing</div>
+        <h2>One clear price for every person doing the work.</h2>
+      </div>
+      <p>No per-project tiers, admin-seat puzzles, or enterprise sales process. Bring the people who need a clearer view of the work.</p>
+    </div>
+    <div class="pricing-card">
+      <div class="label mono">Knavo for teams</div>
+      <div class="price"><strong>$8</strong><span>per team member / month</span></div>
+      <p class="usage-note"><strong>AI token usage is billed separately.</strong> Your subscription covers access to Knavo; usage follows the conversations your team has.</p>
+      <ul class="pricing-list">
+        <li>Team check-ins and conversational interviews</li>
+        <li>Stakeholder-ready briefs from every response</li>
+        <li>Different views for askers and contributors</li>
+      </ul>
+      <a href="#cta" class="btn">Subscribe now</a>
+    </div>
+  </div>
+</section>
+
 <section class="cta-section reveal" id="cta">
   <div class="wrap">
-    <h2>Cancel the standing meeting.</h2>
-    <p class="sub">See what your team's week looks like when the updates write themselves.</p>
+    <h2>Make the next update the last status meeting.</h2>
+    <p class="sub">Tell us about your team and we’ll help you get started with Knavo.</p>
 
     <form class='cta-form' id='cta-form' method='POST' name='talk-to-us'>
       <input type="hidden" name="form-name" value="talk-to-us">
@@ -549,7 +655,7 @@
         <textarea name="note" id="cta-note-field" rows="2" maxlength="200" placeholder="Anything specific you want us to know? (optional)" aria-label="Note"></textarea>
         <span class="cta-char-count" id="cta-char-count">200 characters left</span>
       </div>
-      <button type="submit" class="btn">Talk to us</button>
+      <button type="submit" class="btn">Start your subscription</button>
     </form>
     <p class="cta-note" id="cta-success" hidden>Thanks — we'll be in touch soon.</p>
     <p class="cta-note" id="cta-error" hidden>Something went wrong. Email us directly at <a href="mailto:support@knavo.io">support@knavo.io</a>.</p>
