@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Knavo — Project clarity for your team</title>
+<title>Knavo — A clearer picture of your team</title>
+<meta name="description" content="Knavo runs short, conversational check-ins with your team and turns the answers into an organized, increasingly useful picture of how work gets done.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -290,8 +291,8 @@
 
   .extra{
     display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:48px;
+    grid-template-columns:repeat(3, 1fr);
+    gap:32px;
     margin-top:56px;
     padding-top:40px;
     border-top:1px solid var(--line);
@@ -312,80 +313,6 @@
     font-size:15px;
     margin:0;
   }
-
-  /* PRICING */
-  .pricing-section{
-    background:var(--ink-800);
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-  }
-  .pricing-grid{
-    display:grid;
-    grid-template-columns:minmax(0, 1fr) minmax(320px, 440px);
-    gap:64px;
-    align-items:center;
-  }
-  .pricing-copy h2{ max-width:520px; }
-  .pricing-copy p{
-    max-width:560px;
-    margin:20px 0 0;
-    color:var(--paper-dim);
-    font-size:17px;
-  }
-  .pricing-card{
-    padding:32px;
-    border:1px solid var(--ink-700);
-    border-radius:12px;
-    background:var(--ink-900);
-    box-shadow:0 18px 40px rgba(16,42,67,0.08);
-  }
-  .pricing-card .label{
-    color:var(--signal);
-    font-size:12px;
-  }
-  .price{
-    display:flex;
-    align-items:baseline;
-    gap:8px;
-    margin-top:14px;
-    color:var(--paper);
-  }
-  .price strong{
-    font-family:'Space Grotesk', sans-serif;
-    font-size:clamp(46px, 6vw, 64px);
-    font-weight:600;
-    letter-spacing:-0.05em;
-    line-height:1;
-  }
-  .price span{
-    color:var(--paper-dim);
-    font-size:15px;
-  }
-  .pricing-card .usage-note{
-    margin:16px 0 0;
-    color:var(--paper-dimmer);
-    font-size:12px;
-    line-height:1.45;
-    text-align:center;
-  }
-  .pricing-card .usage-note strong{ color:inherit; font-weight:500; }
-  .pricing-list{
-    display:grid;
-    gap:10px;
-    margin:0 0 26px;
-    padding:0;
-    list-style:none;
-    color:var(--paper-dim);
-    font-size:14px;
-  }
-  .pricing-list li::before{
-    content:'✓';
-    display:inline-block;
-    width:24px;
-    color:var(--signal);
-    font-weight:600;
-  }
-  .pricing-card .btn{ width:100%; text-align:center; }
 
   /* CTA / FOOTER */
   .cta-section{
@@ -499,13 +426,11 @@
     .callout{ grid-template-columns:1fr; }
     .callout-icon{ justify-content:flex-start; }
     nav .nav-links{ display:none; }
-    .pricing-grid{ grid-template-columns:1fr; gap:40px; }
   }
 
   @media (max-width: 520px){
     .wrap{ padding:0 20px; }
     .hero{ padding-top:72px; }
-    .pricing-card{ padding:24px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -521,11 +446,10 @@
   <div class="wrap">
     <div class="logo"><span class="logo-mark"></span>KNAVO</div>
     <div class="nav-links">
-      <a href="#problem">The problem</a>
+      <a href="#problem">Why Knavo</a>
       <a href="#how">How it works</a>
-      <a href="#pricing">Pricing</a>
       <a href="https://app.knavo.io" class="btn">Log in</a>
-      <a href="#pricing" class="btn">Subscribe now</a>
+      <a href="#cta" class="btn">Request access</a>
     </div>
   </div>
 </nav>
@@ -533,12 +457,12 @@
 <header class="hero">
   <div class="bp-grid"></div>
   <div class="wrap">
-    <div class="eyebrow mono">For small teams, not enterprises</div>
-    <h1>The standup. The sprint review. The weekly report. The status meeting about the status doc. Your team of five spends a day a week telling each other what already happened.</h1>
-    <p class="sub">Small teams don't have a chief of staff, so coordination falls on everyone. The director chases updates, the team writes them, the task board goes stale the moment nobody's looking — and the meetings multiply to cover the gap. Knavo replaces the ritual with a five-minute conversation.</p>
+    <div class="eyebrow mono">Conversational team check-ins</div>
+    <h1>A clearer picture of your team, built one conversation at a time.</h1>
+    <p class="sub">Tell Knavo what your team needs to understand. It checks in with each person on your schedule, asks the questions that surface useful context, and organizes what it learns into a clear view for you. Every check-in adds context, so that view gets more useful over time.</p>
     <div class="hero-cta">
-      <a href="#pricing" class="btn">Subscribe now</a>
-      <a href="#problem" class="link">See the problem &darr;</a>
+      <a href="#cta" class="btn">Request access</a>
+      <a href="#how" class="link">See how it works &darr;</a>
     </div>
 
   </div>
@@ -547,12 +471,13 @@
 <section class="section reveal" id="problem">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow mono">The coordination tax</div>
-      <h2>Keeping each other posted is a part-time job nobody was hired to do</h2>
+      <div class="eyebrow mono">Context should not disappear</div>
+      <h2>The most useful context is usually the hardest to keep.</h2>
     </div>
     <div class="prose">
-      <p>Picture five product managers and the director they report to. Nobody's slacking — that's the problem. Everyone's running their own lane, so the only way to stay aligned is to keep asking: <strong>the standup to hear what changed, the sprint review to show it, the weekly report to write it down for whoever missed both.</strong> Each one exists because the last one wasn't enough.</p>
-      <p>And every update gets produced more than once. You tell the standup, then you type it into the tracker, then you summarize it for the director's rollup. Three renditions of the same fact — and the person who needed it still pings you, because it wasn't in the shape they needed.</p>
+      <p>Every team has work that lives between systems: what changed, what needs attention, where a handoff is slowing down, and what people are noticing before it becomes a bigger problem.</p>
+      <p>Keeping up usually means asking people one by one, sitting through another meeting, or piecing together scattered messages. Then a week passes, the context changes, and <strong>the whole explanation starts again.</strong></p>
+      <p>Knavo turns that repeated effort into a short, recurring conversation. The answers stay organized instead of disappearing, giving the team a shared memory without asking anyone to maintain another complicated system.</p>
     </div>
 
     <div class="callout" style="margin-top:48px;">
@@ -560,9 +485,8 @@
         <svg viewBox="0 0 48 48" fill="none"><rect x="4" y="12" width="40" height="28" rx="4" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="26" r="8" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="26" r="2.5" fill="currentColor"/><circle cx="36" cy="16" r="2" fill="currentColor"/></svg>
       </div>
       <div>
-        <p class="mono" style="font-size:12px; color:#5C8BAA; margin-bottom:12px;">Not the fix</p>
-        <p>The usual answer is a better task board. Fine. But a board only knows what people type into it, and keeping it current is one more standing chore — for a team of five, the setup and grooming costs about as much as the meetings it was supposed to replace.</p>
-        <p>So the board drifts, and when nobody trusts it anymore, someone calls a meeting to find out what's actually true. Now you're maintaining the tool <em>and</em> having the meeting.</p>
+        <p class="mono" style="font-size:12px; color:#5C8BAA; margin-bottom:12px;">More than a snapshot</p>
+        <p>A single check-in tells you what people know now. A series of them starts to show what keeps happening — the team's natural rhythm, recurring friction, and the handoffs that need attention.</p>
       </div>
     </div>
   </div>
@@ -570,7 +494,7 @@
 
 <section class="turn reveal">
   <div class="wrap">
-    <p>Stay aligned, or stay heads-down. Small teams have always had to pick one — <span class="accent">until keeping each other posted takes five conversational minutes, and everyone gets exactly the view they asked for.</span></p>
+    <p>At first, Knavo simply brings the right context together. As its understanding deepens, <span class="accent">it creates a foundation for smoother handoffs, better routines, and more of the recurring coordination handled for you.</span></p>
   </div>
 </section>
 
@@ -578,70 +502,52 @@
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow mono">How Knavo works</div>
-      <h2>Anyone on the team asks. Everyone answers in minutes. Nobody books a meeting.</h2>
+      <h2>You set the focus. Knavo talks with the team. The answers come back organized.</h2>
     </div>
 
     <div class="steps">
       <div class="step">
         <span class="step-num mono">01</span>
         <h3>Anyone sets up a check-in</h3>
-        <p>Not just the boss. A PM prepping a sprint review, a director who wants a Friday rollup — write what you need to know, pick your people, set the cadence.</p>
+        <p>Tell Knavo what you want to understand, choose the people to involve, and pick a cadence. No technical setup, workflow-building, or manager permission required.</p>
       </div>
       <div class="step">
         <span class="step-num mono">02</span>
         <h3>Knavo interviews your team</h3>
-        <p>A five-minute conversation with an agent, on each person's own schedule. It follows up the way a good chief of staff would — progress, blockers, who needs what from whom.</p>
+        <p>Each person has a short conversation with Knavo on their own schedule. It follows up naturally, helping the important context come through without turning the check-in into extra work.</p>
       </div>
       <div class="step">
         <span class="step-num mono">03</span>
-        <h3>Your dashboard does the reporting</h3>
-        <p>Answers land on the dashboard of whoever asked, organized around their questions. The sprint review gets read, not held. The weekly report gets assembled, not written.</p>
+        <h3>Knavo reports back</h3>
+        <p>The answers come back to whoever set up the check-in, organized around what they wanted to understand. You see what matters now, with earlier context close at hand when it helps.</p>
       </div>
     </div>
 
     <div class="extra">
       <div class="extra-item">
-        <span class="label mono">Every direction, not just top-down</span>
-        <h3>Everyone gets their own view</h3>
-        <p>The director sees the rollup across the whole team. Each PM sees answers to what they asked. Same conversations, different lenses — nobody has to chase anybody.</p>
+        <span class="label mono">Clear from the first check-in</span>
+        <h3>Get the context you were looking for.</h3>
+        <p>Each round comes back as a clear, readable view built around the check-in's focus, so you can understand what needs attention without chasing everyone for an update.</p>
       </div>
       <div class="extra-item">
-        <span class="label mono">No tool to babysit</span>
-        <h3>Nothing to groom, nothing to go stale</h3>
-        <p>There's no board to keep current and no workflow to configure. When the answers get old, Knavo simply asks again — on the schedule you set once.</p>
+        <span class="label mono">Built for continuity</span>
+        <h3>Notice patterns, not just answers.</h3>
+        <p>Because the context carries forward, Knavo can recognize the team's cadence, repeated obstacles, and the small shifts that are easy to miss in a one-time update.</p>
+      </div>
+      <div class="extra-item">
+        <span class="label mono">For small teams, not enterprises</span>
+        <h3>Start without a systems project.</h3>
+        <p>No enterprise sales process, admin-seat puzzles, or technical implementation. Choose the focus, the people, and the cadence — Knavo handles the conversation.</p>
       </div>
     </div>
 
-  </div>
-</section>
-
-<section class="section pricing-section reveal" id="pricing">
-  <div class="wrap pricing-grid">
-    <div class="pricing-copy">
-      <div class="section-head">
-        <div class="eyebrow mono">Simple team pricing</div>
-        <h2>One clear price for every person doing the work.</h2>
-      </div>
-      <p>No per-project tiers, admin-seat puzzles, or enterprise sales process. Bring the people who need a clearer view of the work.</p>
-    </div>
-    <div class="pricing-card">
-      <div class="label mono">Knavo for teams</div>
-      <div class="price"><strong>$8</strong><span>per team member / month</span></div>
-      <ul class="pricing-list">
-        <li>Team check-ins and conversational interviews</li>
-        <li>Stakeholder-ready briefs from every response</li>
-        <li>Different views for askers and contributors</li>
-      </ul>
-      <a href="#cta" class="btn">Subscribe now</a>
-      <p class="usage-note"><strong>AI token usage is billed separately.</strong> Details depend on how your team uses Knavo.</p>
-    </div>
   </div>
 </section>
 
 <section class="cta-section reveal" id="cta">
   <div class="wrap">
-    <h2>Make the next update the last status meeting.</h2>
-    <p class="sub">Tell us about your team and we’ll help you get started with Knavo.</p>
+    <h2>What would you like to understand about your team?</h2>
+    <p class="sub">Tell us a little about your team and where you need a clearer view. We’ll help you plan a first Knavo check-in.</p>
 
     <form class='cta-form' id='cta-form' method='POST' name='talk-to-us'>
       <input type="hidden" name="form-name" value="talk-to-us">
@@ -651,10 +557,10 @@
         <span class="cta-email-error" id="cta-email-error">Please use your work email, not a personal address.</span>
       </div>
       <div class="field-wrap">
-        <textarea name="note" id="cta-note-field" rows="2" maxlength="200" placeholder="Anything specific you want us to know? (optional)" aria-label="Note"></textarea>
+        <textarea name="note" id="cta-note-field" rows="2" maxlength="200" placeholder="Where does your team need more clarity? (optional)" aria-label="Note"></textarea>
         <span class="cta-char-count" id="cta-char-count">200 characters left</span>
       </div>
-      <button type="submit" class="btn">Start your subscription</button>
+      <button type="submit" class="btn">Request access</button>
     </form>
     <p class="cta-note" id="cta-success" hidden>Thanks — we'll be in touch soon.</p>
     <p class="cta-note" id="cta-error" hidden>Something went wrong. Email us directly at <a href="mailto:support@knavo.io">support@knavo.io</a>.</p>
