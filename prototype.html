@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knavo — YES loop</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; background:#e5e5ea; color:#111; font:400 15px/1.4 "IBM Plex Sans", system-ui, sans-serif; }
+    .bar { background:#f9f9f9; border-bottom:1px solid #d1d1d6; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; font-size:.85rem; }
+    .bar a { color:#007aff; text-decoration:none; }
+    .phone { width:min(390px, calc(100% - 20px)); margin:18px auto 32px; background:#000; border-radius:36px; padding:12px; box-shadow:0 20px 50px rgba(0,0,0,.18); }
+    .inner { background:#fff; border-radius:28px; min-height:640px; display:flex; flex-direction:column; overflow:hidden; }
+    .hdr { padding:12px 12px 8px; background:rgba(249,249,249,.92); border-bottom:1px solid #e5e5ea; text-align:center; }
+    .hdr strong { display:block; font-size:.95rem; }
+    .hdr span { font-size:.72rem; color:#8e8e93; }
+    .thread { flex:1; padding:14px 12px; display:flex; flex-direction:column; gap:8px; background:#fff; justify-content:flex-end; }
+    .bubble { max-width:82%; padding:10px 14px; border-radius:18px; font-size:.95rem; line-height:1.35; white-space:pre-wrap; }
+    .them { align-self:flex-start; background:#e5e5ea; color:#000; border-bottom-left-radius:4px; }
+    .me { align-self:flex-end; background:#34c759; color:#fff; border-bottom-right-radius:4px; }
+    .me.blue { background:#0b93f6; }
+    .time { align-self:center; font-size:.7rem; color:#8e8e93; margin:4px 0; }
+    .actions { padding:10px 12px 14px; display:grid; gap:8px; background:#f9f9f9; border-top:1px solid #e5e5ea; }
+    .yes { appearance:none; border:0; border-radius:16px; background:#34c759; color:#fff; font:800 22px/1 system-ui; padding:18px; cursor:pointer; letter-spacing:.02em; }
+    .ghost { appearance:none; border:0; background:transparent; color:#007aff; font:600 15px system-ui; padding:8px; cursor:pointer; }
+    .pair { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .pair button { appearance:none; border:0; border-radius:14px; background:#e5e5ea; color:#111; font:700 14px system-ui; padding:14px; cursor:pointer; }
+    .screen { display:none; flex:1; flex-direction:column; min-height:640px; }
+    .screen.on { display:flex; }
+    .q { text-align:center; color:#8e8e93; font-size:.8rem; padding:6px 12px 0; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <a href="index.html">Landing</a>
+    <span>iMessage YES loop</span>
+  </div>
+  <div class="phone"><div class="inner">
+
+    <div class="screen on" id="s1">
+      <div class="hdr"><strong>Maya · Apt 2B</strong><span>text message</span></div>
+      <div class="thread">
+        <div class="time">Today 7:14 PM</div>
+        <div class="bubble them">AC stopped. Apt is 82°. Baby here. Can someone come tonight??</div>
+      </div>
+      <p class="q">Tenant texted your number. One thing happens next.</p>
+      <div class="actions">
+        <button class="yes" type="button" id="to2" style="font-size:17px;background:#0b93f6">Open agent text →</button>
+      </div>
+    </div>
+
+    <div class="screen" id="s2">
+      <div class="hdr"><strong>Knavo</strong><span>SMS agent</span></div>
+      <div class="thread">
+        <div class="time">Today 7:14 PM</div>
+        <div class="bubble them">URGENT
+“AC dead, 82°, baby home.”
+
+Send this?
+Hi — treating this as urgent. Booking HVAC and will text an ETA within the hour. Anyone home after 7pm?
+
+Reply YES · EDIT · VENDOR</div>
+      </div>
+      <p class="q">Send this to Maya?</p>
+      <div class="actions">
+        <button class="yes" type="button" id="yes">YES</button>
+        <div class="pair">
+          <button type="button" id="toEdit">EDIT</button>
+          <button type="button" id="toVendor">VENDOR</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="s3">
+      <div class="hdr"><strong>Knavo</strong><span>you</span></div>
+      <div class="thread">
+        <div class="bubble them">Reply YES · EDIT · VENDOR</div>
+        <div class="bubble me">YES</div>
+        <div class="bubble them">Sent ✓</div>
+      </div>
+      <p class="q">Now Maya’s thread…</p>
+      <div class="actions">
+        <button class="yes" type="button" id="toSent" style="font-size:17px;background:#0b93f6">See Maya’s texts →</button>
+      </div>
+    </div>
+
+    <div class="screen" id="s4">
+      <div class="hdr"><strong>Maya · Apt 2B</strong><span>text message</span></div>
+      <div class="thread">
+        <div class="bubble them">AC stopped. Apt is 82°. Baby here…</div>
+        <div class="bubble me blue">Hi — treating this as urgent. Booking HVAC and will text an ETA within the hour. Anyone home after 7pm?</div>
+      </div>
+      <div class="actions">
+        <button class="ghost" type="button" id="restart">Start over</button>
+      </div>
+    </div>
+
+    <div class="screen" id="sEdit">
+      <div class="hdr"><strong>Knavo</strong><span>EDIT = text the new wording</span></div>
+      <div class="thread">
+        <div class="bubble them">Text back the new reply. We’ll send that instead.</div>
+        <div class="bubble me">Coming by 8 with a portable AC if we can’t fix tonight. Text me if worse.</div>
+        <div class="bubble them">Got it. Reply YES to send your edit.</div>
+      </div>
+      <p class="q">Send your edited text?</p>
+      <div class="actions">
+        <button class="yes" type="button" id="yesEdit">YES</button>
+        <button class="ghost" type="button" id="backEdit">Back</button>
+      </div>
+    </div>
+
+    <div class="screen" id="sVendor">
+      <div class="hdr"><strong>Knavo</strong><span>VENDOR shortlist by text</span></div>
+      <div class="thread">
+        <div class="bubble me">VENDOR</div>
+        <div class="bubble them">HVAC shortlist (near you):
+1) Peak Air 303-555-0144
+2) Mile High Comfort 720-555-0199
+3) Rapid Cool 303-555-0171
+
+I’ll text Maya you’re sending someone. Reply YES to send her a short ack.</div>
+      </div>
+      <p class="q">Text Maya a short “vendor on the way”?</p>
+      <div class="actions">
+        <button class="yes" type="button" id="yesVendor">YES</button>
+        <button class="ghost" type="button" id="backVendor">Back</button>
+      </div>
+    </div>
+
+  </div></div>
+  <script>
+    const show = (id) => {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
+      document.getElementById(id).classList.add('on');
+    };
+    document.getElementById('to2').onclick = () => show('s2');
+    document.getElementById('yes').onclick = () => show('s3');
+    document.getElementById('toSent').onclick = () => show('s4');
+    document.getElementById('restart').onclick = () => show('s1');
+    document.getElementById('toEdit').onclick = () => show('sEdit');
+    document.getElementById('backEdit').onclick = () => show('s2');
+    document.getElementById('yesEdit').onclick = () => {
+      document.querySelector('#s4 .me.blue').textContent = 'Coming by 8 with a portable AC if we can’t fix tonight. Text me if worse.';
+      show('s4');
+    };
+    document.getElementById('toVendor').onclick = () => show('sVendor');
+    document.getElementById('backVendor').onclick = () => show('s2');
+    document.getElementById('yesVendor').onclick = () => {
+      document.querySelector('#s4 .me.blue').textContent = 'Got it — looping in HVAC now and will update you with their ETA.';
+      show('s4');
+    };
+  </script>
+</body>
+</html>
